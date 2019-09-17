@@ -10,11 +10,11 @@ ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME --resource-group $RESOURCE_GROUP
 # Create the container instance
 az container create \
     --resource-group $RESOURCE_GROUP \
-    --name mcserver \
+    --name $ACI_NAME \
     --image $ACR_LOGIN_SERVER/bedrock:latest \
     --registry-username $(az keyvault secret show --vault-name $AKV_NAME -n $ACR_NAME-pull-usr --query value -o tsv) \
     --registry-password $(az keyvault secret show --vault-name $AKV_NAME -n $ACR_NAME-pull-pwd --query value -o tsv) \
-    --dns-name-label dchmc \
+    --dns-name-label $ACI_NAME \
     --ports 19132 \
     --protocol udp \
     --assign-identity $SERVICE_PRINCIPAL_ID \
@@ -22,5 +22,5 @@ az container create \
     --azure-file-volume-account-key $STORAGE_KEY \
     --azure-file-volume-share-name $SHARE_NAME \
     --azure-file-volume-mount-path /bedrock-server/worlds/ \
-    --cpu 4 \
-    --memory 4
+    --cpu 2 \
+    --memory 2
