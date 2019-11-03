@@ -24,3 +24,7 @@ az container create \
     --azure-file-volume-mount-path /bedrock-server/worlds/ \
     --cpu 2 \
     --memory 2
+
+az container restart  \
+    --resource-group $RESOURCE_GROUP \
+    --name $ACI_NAME
